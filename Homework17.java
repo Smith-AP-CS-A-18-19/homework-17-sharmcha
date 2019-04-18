@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Homework17 {
 
 	/* Given an array of ints, is it possible to choose a
@@ -20,8 +22,30 @@ public class Homework17 {
 
 
 	public static boolean problem1(int start, int[] nums, int target) {
-		return false;
+
+		//keep moving index forward
+
+		if(start == nums.length){ //if you reach the end of the array
+			return false;
+		}
+
+		else if(nums[start] == target){ //if it sums to the target
+			return true;
+		}
+
+		else if(problem1(start + 1, nums, target - nums[start])){ //include the number
+			return true;
+		}
+
+		else if(problem1(start + 1, nums, target)){ //don't include the number
+			return true;
+		}
+
+		else{
+			return false;
+		}
 	}
+
 
 	/* Given an array of ints, is it possible to choose a
 	 * group of some of the ints, beginning at the start
@@ -35,8 +59,39 @@ public class Homework17 {
 	 */
 
 	 public static boolean problem2(int start, int[] nums, int target) {
-		 return false;
- 	}
+		 int sum = 0;
+		 for(int i = start; i < nums.length; i++){
+			 if(nums[i] == 6){
+				 sum += 6;
+			 }
+		 }
+
+		 return problem2Help(start, nums, target - sum);
+
+		}
+
+		public static boolean problem2Help(int start, int[] nums, int target){
+			if(start == nums.length){
+ 			 return false;
+ 		 	}
+
+ 		 else if(nums[start] == target){
+  			 return true;
+ 		 	}
+
+ 		 else if(problem2(start + 1, nums, target - nums[start])){ //include it
+ 			 return true;
+ 		 	}
+
+ 		 else if(nums[start] == 6 || problem2(start + 1, nums, target)){ //don't include it
+ 			 return false;
+ 		 	}
+
+ 		 else{
+ 			 return false;
+ 		 	}
+		}
+
 
 	/* Given an array of ints, is it possible to divide the
 	 * ints into two groups, so that the sums of the two
@@ -52,11 +107,35 @@ public class Homework17 {
 	 */
 
 	public static boolean problem3(int[] nums) {
-		return false;
+		int sum = 0;
+		for(int i : nums){
+			sum += i;
+		}
+		int group = sum/2;
+		return problem3(0, nums, group);
 	}
 
-	public static boolean problem3(/* parameters */) {
-		return false;
+
+	public static boolean problem3(int start, int[] nums, int target) {
+		if(start == nums.length){ //if you reach the end of the array
+			return false;
+		}
+
+		else if(nums[start] == target){ //if it sums to the target
+			return true;
+		}
+
+		else if(problem3(start + 1, nums, target - nums[start])){ //include the number
+			return true;
+		}
+
+		else if(problem3(start + 1, nums, target)){ //don't include the number
+			return true;
+		}
+
+		else{
+			return false;
+		}
 	}
 
 
@@ -77,7 +156,48 @@ public class Homework17 {
 	 */
 
 	public static boolean problem4(int start, int[] nums, int target) {
-		return false;
+		int sum = 0;
+		ArrayList<Integer> newlist = new ArrayList<Integer>();
+		int i = 1;
+		while(i < nums.length){
+			if(nums[i] == nums[i - 1]){
+					sum += nums[i];
+				}
+			else{
+				newlist.add(nums[i]);
+			}
+			i++
+		}
+		newlist.add(sum);
+
+		int[] newArr = new int[newlist.size()];
+		for(int i = 0; i < newlist.size(); i++){
+				newArr[i] = newlist.get(i);
+		}
+		return problem4Help(start, newArr, target);
+	}
+
+
+	public static boolean problem4Help(int start, int[] nums, int target){
+		if(start == nums.length){
+		 return false;
+		}
+
+	 else if(nums[start] == target){
+			 return true;
+		}
+
+	 else if(problem4Help(start + 1, nums, target - nums[start])){ //include it
+		 return true;
+		}
+
+	 else if(problem4Help(start + 1, nums, target)){ //don't include it
+		 return false;
+		}
+
+	 else{
+		 return false;
+		}
 	}
 
 	/* Given an array of ints, is it possible to divide
@@ -95,11 +215,39 @@ public class Homework17 {
 	 */
 
 	public static boolean problem5(int[] nums) {
-		return false;
+		int sum = 0;
+		for(int number : nums){
+			sum += number;
+		}
+		int newTarget = sum % 10;
+		if(newTarget % 2 == 0){
+			return false;
+		}
+		else{
+			return problem5(0, nums, newTarget);
+		}
 	}
 
-	public static boolean problem5(/* parameters */) {
-		return false;
+	public static boolean problem5(int start, int[] nums, int target) {
+		if(start == nums.length){ //if you reach the end of the array
+			return false;
+		}
+
+		else if(nums[start] == target){ //if it sums to the target
+			return true;
+		}
+
+		else if(problem5(start + 1, nums, target - nums[start])){ //include the number
+			return true;
+		}
+
+		else if(problem5(start + 1, nums, target)){ //don't include the number
+			return true;
+		}
+
+		else{
+			return false;
+		}
 	}
 
 	public static void main(String[] args) {
